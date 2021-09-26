@@ -4,49 +4,76 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 6.9f;
-    int rotationAngle = 120;
+    bool hpFull = true;
+
     public bool isRolling = false;
-
     public bool goingUp = true;
-    public GameObject armadillo;
 
-    float speedWalking = 4.2f;
-    float speedRolling = 6.9f;
+    public float speedWalking = 4.20f;
+    public float speedRolling = 6.9f;
+    public float jumpWalking = 4.20f;
+    public float jumpRolling = 6.9f;
+    int rotationAngle = 120;
+    int speedTimer = 0;
 
-    public float JumpHeight;
+    private GameObject hat, tie;
     private Rigidbody2D rb;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
-    {
-        GameObject.Find("Ball").active = !true; ///////////// ⚠️to delete⚠️
-        
+    {   
         rb = GetComponent<Rigidbody2D>();
-    }
-    void OnCollisionEnter2D(Collision2D c)
-    {
-        Debug.Log(c.gameObject.tag);
+        anim = GetComponent<Animator>();
+        hat = GameObject.Find("Hat");
+        tie = GameObject.Find("Tie");
+
+        anim.Play("Iddle");
     }
 
     // Update is called once per frame
     void Update()
-    {/*
-        if (Input.GetKey(KeyCode.Space))
-        {
-            rb.velocity = new Vector2(0, JumpHeight);
-        }*/
+    {
+        Debug.Log(speedTimer);
+        Captured();
         Jump();
-        Ball();
-
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || 
-            Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S)) 
+        ////////////*****////////////     PATH     ////////////*****////////////
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) ||
+            Input.GetKey("right")   || Input.GetKey("up"))
         {
-            isRolling = !false; 
+            goingUp = true;
+        }
+        else
+        {
+            goingUp = false;
+        }
+        ////////////*****////////////   MOVEMENT   ////////////*****////////////
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)  ||  Input.GetKey("right") || Input.GetKey("up") ||
+            Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S)  ||  Input.GetKey("left")  || Input.GetKey("down"))
+        {
+            float speed;
+            speedTimer++;
 
-            speed = speedRolling;
-            // set sprite to rolling (ball) 
-            
+            if (speedTimer >= 200)
+            {      
+                anim.Play("Roll");
+                isRolling = true;
+                speed = 6.9f;
+
+                hat.SetActive(false);  tie.SetActive(false);              
+                transform.Rotate(new Vector3(0, 0, -rotationAngle * 4.20f) * Time.deltaTime);
+                
+                speedTimer = 200;
+            } 
+            else
+            {
+                anim.Play("Walk");
+                isRolling = false;
+                speed = 4.20f;
+
+                hat.SetActive(true);  tie.SetActive(true);
+                transform.rotation = Quaternion.identity;
+            }
             float horizontal = 1f;
             Vector2 position = transform.position;
             position.x = position.x + speed * horizontal * Time.deltaTime;
@@ -54,146 +81,50 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            isRolling = !true;
+            Debug.Log("Not pressed!!!");
+            anim.Play("Iddle");
+            isRolling = false;
 
-            speed = speedWalking;
-            // set sprite to iddle (2 sprite-Walking)           
-        }
+            hat.SetActive(true); tie.SetActive(true);
+            transform.rotation = Quaternion.identity;
 
-            /*        ///////////////////////////// MOVIMIENTO //////////////////////////////////////////
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || 
-            Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))         
-        {  
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
-            {
-                armadillo.transform.Rotate(new Vector3(0, 0, -rotationAngle*speed) * Time.deltaTime);   
-            }
-            else 
-            {
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
-                {
-                    armadillo.transform.Rotate(new Vector3(0, 0, -rotationAngle * speed) * Time.deltaTime);
-                }
-                else
-                {
-                    //a
-                }
-            }
-        }*/
-
-        // ****************************** Rodar ***************************************************
-        if (isRolling)
-        {
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
-            {
-                goingUp = true;
-            }
-            else 
-            {
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
-                {
-                    goingUp = false;
-                }
-                else
-                {
-                    
-                }
-            }          
+            speedTimer--;
+            speedTimer = speedTimer <= 0 ? 0 : speedTimer;
         }
-        // ****************************** Rodar ***************************************************
-        else
-        {
-            //a
-        }
+        Debug.Log("update");
     }
-    void Ball()
-    {
-        if (isRolling)
-        {
-            //set sprite to ball
-        }
-        else
-        {
-            // set sprite to humanoid form
-        }
-    }
-    /*void Movement(bool rotation)
-    {
-        if (rotation)
-        {
-            speed = speedRolling;
-        }
-        else
-        {
-            speed = speedWalking;
-        }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || 
-            Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))         
-        {  
-            float horizontal = 1f;
-            Vector2 position = transform.position;
-            position.x = position.x + speed * horizontal * Time.deltaTime;
-            transform.position = position;   
-
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
-            {
-                armadillo.transform.Rotate(new Vector3(0, 0, -rotationAngle*speed) * Time.deltaTime);   
-            }
-            else 
-            {
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
-                {
-                    armadillo.transform.Rotate(new Vector3(0, 0, -rotationAngle * speed) * Time.deltaTime);
-                }
-                else
-                {
-                    //a
-                }
-            }
-        }
-        else
-        {
-            
-        } 
-    }*/
-    void Jump()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, JumpHeight);
-        }
-        ///////////////////////////////////MOVIMIENTO VIDEOS ///////////////////////////////
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-            rb.transform.localScale = new Vector2(1, 1);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.velocity = new Vector2(-speed, rb.velocity.y);
-            rb.transform.localScale = new Vector2(-1, 1);
-        }
-        ///////////////////////////////////MOVIMIENTO VIDEOS ///////////////////////////////
-        /*
-        if (Input.GetKey(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            if (isRolling)
-            {
-                rb.velocity = new Vector2(0, JumpHeight);
-            }
-            else
-            {
-                rb.velocity = new Vector2(0, JumpHeight);
-            }
-        }
-        else
-        {
-            //a
-        }*/
-    }
     void Captured()
     {
-        // Restart
+        if (!hpFull)
+        {
+            // capturado
+            // restart
+        }
+    }
+
+    void Jump()
+    {
+        float jumpSpeed = 0f;
+        jumpSpeed = isRolling ? jumpRolling : jumpWalking;
+
+        if (isRolling)
+        {
+            jumpSpeed = jumpRolling;
+        }
+        else
+        {
+            jumpSpeed = jumpWalking;
+        }
+
+        if (Input.GetKey(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        }
+    }
+    
+    void OnCollisionEnter2D(Collision2D c)
+    {
+        Debug.Log(c.gameObject.tag);
     }
 }
