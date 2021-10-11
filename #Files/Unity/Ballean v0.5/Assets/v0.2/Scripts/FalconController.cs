@@ -5,39 +5,52 @@ using UnityEngine;
 public class FalconController : MonoBehaviour
 {
     public GameObject falcon;
-    public Transform pos_start;
-    public Transform pos_end;
-    private Transform pos_next;
+    public SpriteRenderer sr;
+
+    public Transform posStart;
+    public Transform posEnd;
+    private Transform posNext;
     public float speed;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        pos_next = pos_end;
+        posNext = posEnd;
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {      
         falcon.transform.position = Vector2.MoveTowards(falcon.transform.position, 
-                                                        pos_next.position, 
+                                                        posNext.position, 
                                                         Time.deltaTime*speed);
         
-        if (falcon.transform.position == pos_next.position)
+        if (falcon.transform.position == posNext.position)
         {
-            pos_next = pos_next == pos_end ? pos_start : pos_end;
+            posNext = posNext == posEnd ? posStart : posEnd;
+         
+            if (posNext == posEnd)
+            {
+                sr.flipX = false;
+            }
+            else
+            {
+                sr.flipX = true;
+            }
         }
-
-        /*                 /////////////////////////////////////////// DEBUG ERROR /////////////////////////
-                                                                    NOT MOVING
-        if (falcon.transform.position == pos_end.position)
-        {
-            Debug.Log("✓");
-        }
-        else
-        {
-            Debug.Log("✗");
-        }
-        */
     }
+
+    /*
+
+    ////////////////////////////////collide whit player
+
+    collision()
+    {
+        if (colision whit player)
+        // player.hpFull = false;
+        // player.Captured();
+    }
+
+    */
 }

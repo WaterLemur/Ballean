@@ -20,6 +20,17 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
+    enum capEnum {Coyote = 1, Arianna, Crocodile};
+    byte[] capturedArray = new byte[3]; // [ Coyote, Arianna, Crocodile/Swamp ]
+
+    byte[] itemsCollected = new byte[3];// [ Larvae, Bug, Ant ]
+
+    Transform posStart;
+
+    //////////////////////////////// UI ///////////////////////////////////////////
+
+    //////////////////////////////// UI ///////////////////////////////////////////
+
     // Start is called before the first frame update
     void Start()
     {   
@@ -28,6 +39,8 @@ public class PlayerController : MonoBehaviour
         hat = GameObject.Find("Hat");
         tie = GameObject.Find("Tie");
 
+        posStart = GameObject.Find("Position Start Player").GetComponent<Transform>();
+
         anim.Play("Iddle");
     }
 
@@ -35,7 +48,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Debug.Log(speedTimer);
-        Captured();
         Jump();
         ////////////*****////////////     PATH     ////////////*****////////////
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) ||
@@ -92,15 +104,38 @@ public class PlayerController : MonoBehaviour
             speedTimer = speedTimer <= 0 ? 0 : speedTimer;
         }
         Debug.Log("update");
+    } 
+
+    void Reset()
+    {
+        this.transform.position = posStart.position;
+        hpFull = true;
+        capturedArray = new byte[3];
+        itemsCollected = new byte[3];
+        /*
+        CoyoteController.Reset();
+        FalconController.Reset();
+        */
     }
 
-    void Captured()
+    void Captured(capEnum captor)
     {
-        if (!hpFull)
+        if (hpFull == false)
         {
-            // capturado
-            // restart
-        }
+            if (captor == capEnum.Coyote)
+            {
+                capturedArray[0]++;
+            }
+            else if (captor == capEnum.Arianna)
+            {
+                capturedArray[1]++;
+            }
+            else if (captor == capEnum.Crocodile)
+            {
+                capturedArray[2]++;
+            }
+            Reset(); 
+        }    
     }
 
     void Jump()

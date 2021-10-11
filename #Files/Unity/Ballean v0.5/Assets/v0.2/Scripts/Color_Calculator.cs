@@ -53,7 +53,7 @@ public class Color_Calculator : MonoBehaviour
 
         while (numba <= 10)
         {
-            Debug.Log("#"+numba+" : "+numbersF[j]+", "+numbersF[j+1]+", "+numbersF[j+2]);
+            // Debug.Log("#"+numba+" : "+numbersF[j]+", "+numbersF[j+1]+", "+numbersF[j+2]);
 
             numba++; 
             j =+ 3;

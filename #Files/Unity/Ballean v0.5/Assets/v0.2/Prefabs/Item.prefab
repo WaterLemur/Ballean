@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 450119920647371350}
   - component: {fileID: 450119920647371351}
-  - component: {fileID: 450119920647371348}
+  - component: {fileID: 6917453871831213400}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -168,7 +168,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &450119920647371348
+--- !u!114 &6917453871831213400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,9 +177,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 450119920647371345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f4d2af347a1b74ab31b943613ccdac, type: 3}
+  m_Script: {fileID: 11500000, guid: dedb7017b7d2d164699fff8e086bc673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ant: {fileID: -19707984203771877, guid: 2fe1895820b0451499f220ba2b021c2a, type: 3}
-  bug: {fileID: -118130199332869670, guid: 2fe1895820b0451499f220ba2b021c2a, type: 3}
-  larvae: {fileID: -455179098890850014, guid: 2fe1895820b0451499f220ba2b021c2a, type: 3}
+  item: 0
+  larvae: {fileID: 0}
+  bug: {fileID: 0}
+  ant: {fileID: 0}

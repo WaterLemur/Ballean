@@ -5,11 +5,12 @@ using UnityEngine;
 public class CoyoteController : MonoBehaviour
 {
     public float speed;
+    GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player =  GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -19,8 +20,24 @@ public class CoyoteController : MonoBehaviour
         Vector2 position = transform.position;
         position.x = position.x + speed * horizontal * Time.deltaTime;
         transform.position = position;
+
+        CheckPlayerYPos();
     }
+
+    void CheckPlayerYPos()
+    {
+
+    }
+    /*
 
     // if collider whit player
     //deth
+
+    collision()
+    {
+        if (colision whit player)
+            // player.hpFull = false;
+            // player.Captured();
+    }
+    */
 }

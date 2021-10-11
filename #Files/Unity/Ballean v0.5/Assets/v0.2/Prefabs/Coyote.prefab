@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 3847865500682545828}
   - component: {fileID: 3847865500682545829}
   m_Layer: 0
-  m_Name: 04-01_0
+  m_Name: CoyoteIMG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,10 +139,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3847865501357579000}
-  - component: {fileID: 3847865501357579001}
+  - component: {fileID: 7115443343298932941}
   m_Layer: 0
   m_Name: Coyote
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,7 +154,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3847865501357579003}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.072247, y: -0.108887754, z: -1.6396813}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -164,7 +164,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3847865501357579001
+--- !u!114 &7115443343298932941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

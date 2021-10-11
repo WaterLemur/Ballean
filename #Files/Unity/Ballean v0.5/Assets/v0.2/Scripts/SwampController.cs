@@ -18,11 +18,21 @@ public class SwampController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // when colision 1(near) whit player
-            // on sprite open mouth
-            // off sprite closed mouth
-        // when collision 2 (eat) whit player
-            // on sprite closed mouth
-            // off sprite open mouth
+
     }
+    void Reset()
+    {
+
+    }
+// when colision 1(danger whit player
+    // on sprite apear croco
+    // off sprite closed mouth,
+                  
+// when collision 2 (warning) whit player
+    // on open mouth1 sprite;
+    // off sprite apear croco,
+// when player deth
+    // on open mouth4 + anim
+    // player.hpFull = false;
+    // player.Captured();
 }

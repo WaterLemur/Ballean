@@ -98,9 +98,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   falcon: {fileID: 7569096817010815540}
+  sr: {fileID: 7119411199281680497}
   pos_start: {fileID: 0}
   pos_end: {fileID: 0}
-  speed: 3
+  speed: 20
 --- !u!61 &3089301937193050810
 BoxCollider2D:
   m_ObjectHideFlags: 0
