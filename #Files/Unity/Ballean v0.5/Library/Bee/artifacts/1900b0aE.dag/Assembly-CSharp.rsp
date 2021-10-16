@@ -349,6 +349,7 @@
 "Assets/v0.2/Scripts/EndController.cs"
 "Assets/v0.2/Scripts/FalconController.cs"
 "Assets/v0.2/Scripts/ItemController.cs"
+"Assets/v0.2/Scripts/LevelController.cs"
 "Assets/v0.2/Scripts/PlayerController.cs"
 "Assets/v0.2/Scripts/SwampController.cs"
 "Assets/v0.2/Scripts/UIController.cs"
