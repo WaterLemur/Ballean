@@ -158,7 +158,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   falcon: {fileID: 7569096817010815540}
-  sr: {fileID: 0}
   posStart: {fileID: 2281036086570597289}
   posEnd: {fileID: 5239508785322143158}
   speed: 20

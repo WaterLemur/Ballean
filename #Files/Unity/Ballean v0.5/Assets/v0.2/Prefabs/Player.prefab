@@ -217,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e788261921ebf7f4bb28f24f92d7e015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpFull: 1
+  vidas: 0
   isRolling: 1
   speedWalking: 4.2
   speedRolling: 6.9
@@ -225,6 +227,14 @@ MonoBehaviour:
   hat: {fileID: 4931107709244392621}
   tie: {fileID: 3583092101642920972}
   bow: {fileID: 8428545274732634511}
+  collectedAnts: 0
+  collectedBugs: 0
+  collectedLavas: 0
+  capturedArray: 000000
+  itemsCollected: 000000
+  hudController: {fileID: 0}
+  levelController: {fileID: 0}
+  iController: {fileID: 0}
 --- !u!114 &91346316905995178
 MonoBehaviour:
   m_ObjectHideFlags: 0
