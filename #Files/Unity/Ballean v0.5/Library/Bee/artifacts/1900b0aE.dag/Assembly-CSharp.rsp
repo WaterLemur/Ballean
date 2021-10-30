@@ -344,15 +344,16 @@
 "Assets/v0.1/Scripts/v0.1/Zones.cs"
 "Assets/v0.2/Scripts/ArmadilloController.cs"
 "Assets/v0.2/Scripts/ClothesController.cs"
-"Assets/v0.2/Scripts/Color_Calculator.cs"
+"Assets/v0.2/Scripts/ConsoleText.cs"
 "Assets/v0.2/Scripts/CoyoteController.cs"
-"Assets/v0.2/Scripts/EndController.cs"
+"Assets/v0.2/Scripts/EndingController.cs"
 "Assets/v0.2/Scripts/FalconController.cs"
+"Assets/v0.2/Scripts/HUDController.cs"
 "Assets/v0.2/Scripts/ItemController.cs"
 "Assets/v0.2/Scripts/LevelController.cs"
+"Assets/v0.2/Scripts/Logo.cs"
 "Assets/v0.2/Scripts/PlayerController.cs"
 "Assets/v0.2/Scripts/SwampController.cs"
-"Assets/v0.2/Scripts/UIController.cs"
 -langversion:8.0
 
 /deterministic

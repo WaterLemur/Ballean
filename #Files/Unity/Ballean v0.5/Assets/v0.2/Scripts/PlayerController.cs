@@ -4,42 +4,43 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    bool hpFull = true;
+    public bool hpFull = true;
+    public byte vidas = new byte(); 
 
     public bool isRolling = false;
-    public bool goingUp = true;
 
     public float speedWalking = 4.20f;
     public float speedRolling = 6.9f;
     public float jumpWalking = 4.20f;
     public float jumpRolling = 6.9f;
-    int rotationAngle = 120;
-    int speedTimer = 0;
+    float jumpSpeed = new float();
+    byte rotationAngle = 120;
+    byte speedTimer = 0;
 
-    private GameObject hat, tie;
+    public SpriteRenderer hat, tie, bow;
     private Rigidbody2D rb;
     private Animator anim;
 
+    public byte collectedAnts, collectedBugs, collectedLavas;
+
     enum capEnum {Coyote = 1, Arianna, Crocodile};
-    byte[] capturedArray = new byte[3]; // [ Coyote, Arianna, Crocodile/Swamp ]
+    public byte[] capturedArray = new byte[3]; // [ Coyote, Arianna, Crocodile/Swamp ]
 
-    byte[] itemsCollected = new byte[3];// [ Larvae, Bug, Ant ]
+    public byte[] itemsCollected = new byte[3];// [ Larvae, Bug, Ant ]
 
-    Transform posStart;
+    public HUDController hudController;
+    public LevelController levelController;
+    public ItemController iController;
 
     //////////////////////////////// UI ///////////////////////////////////////////
 
     //////////////////////////////// UI ///////////////////////////////////////////
-
     // Start is called before the first frame update
     void Start()
-    {   
+    {
+
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        hat = GameObject.Find("Hat");
-        tie = GameObject.Find("Tie");
-
-        posStart = GameObject.Find("Position Start Player").GetComponent<Transform>();
 
         anim.Play("Iddle");
     }
@@ -47,17 +48,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(speedTimer);
         Jump();
         ////////////*****////////////     PATH     ////////////*****////////////
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) ||
             Input.GetKey("right")   || Input.GetKey("up"))
         {
-            goingUp = true;
+            levelController.goingUp = true;
         }
         else
         {
-            goingUp = false;
+            levelController.goingUp = false;
         }
         ////////////*****////////////   MOVEMENT   ////////////*****////////////
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)  ||  Input.GetKey("right") || Input.GetKey("up") ||
@@ -72,10 +72,14 @@ public class PlayerController : MonoBehaviour
                 isRolling = true;
                 speed = 6.9f;
 
-                hat.SetActive(false);  tie.SetActive(false);              
+                hat.color = new Color(hat.color.r, hat.color.g, hat.color.b, 0f);
+                bow.color = new Color(bow.color.r, bow.color.g, bow.color.b, 0f);
+                tie.color = new Color(tie.color.r, tie.color.g, tie.color.b, 0f);
                 transform.Rotate(new Vector3(0, 0, -rotationAngle * 4.20f) * Time.deltaTime);
                 
                 speedTimer = 200;
+                ConsoleText.Print("i", "red", " - - - - - - - - - - - - - - - - - - - - - - - - - - - - Rolling!", 13); 
+                                
             } 
             else
             {
@@ -83,8 +87,13 @@ public class PlayerController : MonoBehaviour
                 isRolling = false;
                 speed = 4.20f;
 
-                hat.SetActive(true);  tie.SetActive(true);
+                hat.color = new Color(hat.color.r, hat.color.g, hat.color.b, 1f);
+                bow.color = new Color(bow.color.r, bow.color.g, bow.color.b, 1f);
+                tie.color = new Color(tie.color.r, tie.color.g, tie.color.b, 1f);
                 transform.rotation = Quaternion.identity;
+
+                ConsoleText.Print("i", "orange", " - - - - - - - - - - - - - - - - - - - - - - - - - - - - Walking ...", 13); 
+                
             }
             float horizontal = 1f;
             Vector2 position = transform.position;
@@ -93,73 +102,88 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not pressed!!!");
+            ConsoleText.Print("i", "yellow", " - - - - - - - - - - - - - - - - - - - - - - - - - - - - AFK", 13);
             anim.Play("Iddle");
             isRolling = false;
 
-            hat.SetActive(true); tie.SetActive(true);
+            hat.color = new Color(hat.color.r, hat.color.g, hat.color.b, 1f);
+            bow.color = new Color(bow.color.r, bow.color.g, bow.color.b, 1f);
+            tie.color = new Color(tie.color.r, tie.color.g, tie.color.b, 1f);
             transform.rotation = Quaternion.identity;
 
             speedTimer--;
-            speedTimer = speedTimer <= 0 ? 0 : speedTimer;
+            speedTimer = speedTimer <= 0 ? (byte)0 : speedTimer;
         }
-        Debug.Log("update");
     } 
-
-    void Reset()
-    {
-        this.transform.position = posStart.position;
-        hpFull = true;
-        capturedArray = new byte[3];
-        itemsCollected = new byte[3];
-        /*
-        CoyoteController.Reset();
-        FalconController.Reset();
-        */
-    }
-
-    void Captured(capEnum captor)
-    {
-        if (hpFull == false)
-        {
-            if (captor == capEnum.Coyote)
-            {
-                capturedArray[0]++;
-            }
-            else if (captor == capEnum.Arianna)
-            {
-                capturedArray[1]++;
-            }
-            else if (captor == capEnum.Crocodile)
-            {
-                capturedArray[2]++;
-            }
-            Reset(); 
-        }    
-    }
-
     void Jump()
-    {
-        float jumpSpeed = 0f;
+    {       
         jumpSpeed = isRolling ? jumpRolling : jumpWalking;
-
-        if (isRolling)
-        {
-            jumpSpeed = jumpRolling;
-        }
-        else
-        {
-            jumpSpeed = jumpWalking;
-        }
-
         if (Input.GetKey(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+            rb.velocity = new Vector2(rb.velocity.y, jumpSpeed);
         }
     }
-    
-    void OnCollisionEnter2D(Collision2D c)
+    void Captured(capEnum captor)
     {
-        Debug.Log(c.gameObject.tag);
+        if (captor == capEnum.Coyote)
+        {
+            capturedArray[0]++;           
+        }
+        else if (captor == capEnum.Arianna)
+        {
+            capturedArray[1]++;
+        }
+        else if (captor == capEnum.Crocodile)
+        {
+            capturedArray[2]++;
+        }
+        vidas++;
+        levelController.Reiniciar();
+        transform.position = levelController.posPlayerNewGame.position;
+    }
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        //Debug: con quien colisiona?
+        ConsoleText.Print("b", "orange", "COLLISION:  " + other.gameObject.name + "  -  TAG:  " + other.gameObject.tag, 0);
+        //Cojer objeto
+        if (other.gameObject.tag == "Collectable")
+        {
+            if(other.gameObject.GetComponent<ItemController>().item == ItemController.Items.Larvae)
+            {
+                collectedLavas++;
+                hudController.UpdateScore("larvae");
+            }
+            else if (other.gameObject.GetComponent<ItemController>().item == ItemController.Items.Bug)
+            {
+                collectedBugs++;
+                hudController.UpdateScore("bug");
+            }
+            else if (other.gameObject.GetComponent<ItemController>().item == ItemController.Items.Ant)
+            {
+                collectedAnts++;
+                hudController.UpdateScore("ant");
+            }
+            other.gameObject.SetActive(false);
+        }
+        else if (other.gameObject.tag == "Enemy")
+        {
+            hpFull = false;
+            if(other.gameObject.GetComponent<CoyoteController>())
+            {
+                Captured(capEnum.Coyote);
+                // Capturado por el coyote
+            }
+            else if (other.gameObject.GetComponent<FalconController>())
+            {
+                Captured(capEnum.Arianna);
+                // Capturado por la alcón
+            }
+        }
+        else if (other.gameObject.tag == "Obstacle")
+        {
+            hpFull = false;
+            Captured(capEnum.Crocodile);
+            // Atrapado en el pantando
+        }
     }
 }

@@ -5,17 +5,16 @@ using UnityEngine;
 public class FalconController : MonoBehaviour
 {
     public GameObject falcon;
-    public SpriteRenderer sr;
+    SpriteRenderer sr;
 
     public Transform posStart;
     public Transform posEnd;
     private Transform posNext;
     public float speed;
-
-
     // Start is called before the first frame update
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         posNext = posEnd;
     }
 

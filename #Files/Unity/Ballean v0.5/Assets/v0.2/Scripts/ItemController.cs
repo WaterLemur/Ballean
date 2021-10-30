@@ -6,63 +6,43 @@ public class ItemController : MonoBehaviour
 {
     public enum Items { Larvae, Bug, Ant };
     public Items item = new Items();
+    public byte itemSelector;
 
     GameObject shine;
     SpriteRenderer sr;
-
-    Sprite larvae, bug, ant;
+    public Sprite[] items;
 
     void Update()
     {
+        // Rotacion de la imagen de fondo
         shine.transform.Rotate(new Vector3(0, 0, -90) * Time.deltaTime);
     }
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        larvae = Resources.Load<Sprite>("Images/Items_01/Items_02") as Sprite;
-        bug = Resources.Load<Sprite>("Images/Items_01/Items_01_1") as Sprite;
-        ant = Resources.Load<Sprite>("Images/Items_01/Items_01_0") as Sprite;
-
-        if (larvae == Resources.Load<Sprite>("Images/Items_01"))
-        {
-            Debug.Log("SPRIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIITE");        
-        }
-
         shine = transform.Find("Shine").gameObject;
 
-
-        sr.sprite = (item == Items.Larvae) ? sr.sprite = larvae : null;
-        sr.sprite = (item == Items.Bug) ? sr.sprite = bug : null;
-        sr.sprite = (item == Items.Ant) ? sr.sprite = ant : null;
-
-        RandomItem();////////    DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+        SetItem("bug"); //     de-bug     gggggggggggggggggggggggggggggggggggggggggggggg        
     }
-////////////////////////////////////////    DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
-    void RandomItem()
+
+    void SetItem(string who)
+    
     {
-        byte itemSelector = (byte)Random.Range(0,3);
-        if (itemSelector == 0)
+        if(who == "larvae")
         {
-            sr.sprite = larvae;
+            sr.sprite = items[0];
+            item = Items.Larvae;
         }
-        else if (itemSelector == 1)
+        else if (who == "bug")
         {
-            sr.sprite = bug;
+            sr.sprite = items[1];
+            item = Items.Bug;
         }
-        else if (itemSelector == 2)
+        else if (who == "ant")
         {
-            sr.sprite = ant;
+            sr.sprite = items[2];
+            item = Items.Ant;
         }
     }
-
-    /*
-        collision ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        
-        if collide whit player
-        {
-            player.itemsCollected[ (int)item ]++;     
-        }
-    */
 }
